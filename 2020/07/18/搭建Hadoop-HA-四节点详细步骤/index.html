@@ -15,19 +15,19 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="4节点hadoop-2.8.3 HA集群搭建一、集群规划  共4个节点，主机名分别是node01、node02、node03、node04  初始启动集群，node01上运行active namenode即主namenode；node02上运行standby namenode即从namenode  每个节点运行的进程如下表    机器名 运行进程    node01 NameNode&#x2F;zkfc&#x2F;Z">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CZXrybdBCs7pz4PF.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CZWFOQR6Hs2mtMgk.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CprQsvdSDuyE1L7i.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CMQ5fExqsnOoamp7.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CmckounH9EBqUfrs.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CNYxcqiwRhPSn4uQ.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CKNw8aRLuZ52BFpJ.png">
-<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CzDn1McJiESdbhKm.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/ZXrybdBCs7pz4PF.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/ZWFOQR6Hs2mtMgk.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/prQsvdSDuyE1L7i.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/MQ5fExqsnOoamp7.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/mckounH9EBqUfrs.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/NYxcqiwRhPSn4uQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/KNw8aRLuZ52BFpJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/18/zDn1McJiESdbhKm.png">
 <meta property="article:published_time" content="2020-07-18T09:38:31.000Z">
-<meta property="article:modified_time" content="2020-07-18T10:18:45.821Z">
+<meta property="article:modified_time" content="2020-07-18T10:23:16.167Z">
 <meta property="article:author" content="潘子墨">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CZXrybdBCs7pz4PF.png">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/18/ZXrybdBCs7pz4PF.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -385,41 +385,41 @@
 </blockquote>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://node-01:50070</span><br></pre></td></tr></table></figure>
 
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CZXrybdBCs7pz4PF.png" alt="Image201907271415.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/ZXrybdBCs7pz4PF.png" alt="Image201907271415.png"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-02:50070</span><br></pre></td></tr></table></figure>
 
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CZWFOQR6Hs2mtMgk.png" alt="Image201907271416.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/ZWFOQR6Hs2mtMgk.png" alt="Image201907271416.png"></p>
 <h4 id="5-1-2-模拟主备切换"><a href="#5-1-2-模拟主备切换" class="headerlink" title="5.1.2 模拟主备切换"></a>5.1.2 模拟主备切换</h4><p>在主namenode节点，运行</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh stop namenode</span><br></pre></td></tr></table></figure>
 
 <p>访问之前为”备namenode”的WEB UI；发现状态更新为active</p>
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CprQsvdSDuyE1L7i.png" alt="Image201907271417.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/prQsvdSDuyE1L7i.png" alt="Image201907271417.png"></p>
 <p>启动刚才手动停掉的namenode</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start namenode</span><br></pre></td></tr></table></figure>
 
 <p>访问它的WEB UI，发现状态更新为standby</p>
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CMQ5fExqsnOoamp7.png" alt="Image201907271419.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/MQ5fExqsnOoamp7.png" alt="Image201907271419.png"></p>
 <h3 id="5-2-验证Yarn-HA"><a href="#5-2-验证Yarn-HA" class="headerlink" title="5.2 验证Yarn HA"></a>5.2 验证Yarn HA</h3><blockquote>
 <p>node-04、node-05主备切换</p>
 </blockquote>
 <h4 id="5-2-1-访问WEB-UI"><a href="#5-2-1-访问WEB-UI" class="headerlink" title="5.2.1 访问WEB UI"></a>5.2.1 访问WEB UI</h4><p>node-04浏览器访问</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-04:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
 
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CmckounH9EBqUfrs.png" alt="Image201907271519.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/mckounH9EBqUfrs.png" alt="Image201907271519.png"></p>
 <p>node-05浏览器访问</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-05:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
 
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CNYxcqiwRhPSn4uQ.png" alt="Image201907271520.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/NYxcqiwRhPSn4uQ.png" alt="Image201907271520.png"></p>
 <h4 id="5-2-2-模拟主备切换"><a href="#5-2-2-模拟主备切换" class="headerlink" title="5.2.2 模拟主备切换"></a>5.2.2 模拟主备切换</h4><p>在主resourcemanager节点，运行</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh stop resourcemanager</span><br></pre></td></tr></table></figure>
 
 <p>访问之前为”备resourcemanager”的WEB UI；发现状态更新为active</p>
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CKNw8aRLuZ52BFpJ.png" alt="Image201907271524.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/KNw8aRLuZ52BFpJ.png" alt="Image201907271524.png"></p>
 <p>启动刚才手动停掉的resourcemanager</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh start resourcemanager</span><br></pre></td></tr></table></figure>
 
 <p>访问它的WEB UI，发现状态更新为standby</p>
-<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CzDn1McJiESdbhKm.png" alt="Image201907271526.png"></p>
+<p><img src="https://i.loli.net/2020/07/18/zDn1McJiESdbhKm.png" alt="Image201907271526.png"></p>
 <h4 id="5-2-3-运行MR示例"><a href="#5-2-3-运行MR示例" class="headerlink" title="5.2.3 运行MR示例"></a>5.2.3 运行MR示例</h4><p>运行一下hadoop示例中的WordCount程序：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -put /home/bruce/hadoop-2.7.3/LICENSE.txt /</span><br><span class="line">hadoop jar hadoop-2.7.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /LICENSE.txt /w0727</span><br></pre></td></tr></table></figure>
 
