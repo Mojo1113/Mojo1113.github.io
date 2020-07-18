@@ -6,15 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>搭建Hadoop HA 四节点详细步骤 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="4节点hadoop-2.8.3 HA集群搭建一、集群规划  共4个节点，主机名分别是node01、node02、node03、node04  初始启动集群，node01上运行active namenode即主namenode；node02上运行standby namenode即从namenode  每个节点运行的进程如下表    机器名 运行进程    node01 NameNode&#x2F;zkfc&#x2F;Z">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建Hadoop HA 四节点详细步骤">
+<meta property="og:url" content="http://yoursite.com/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="4节点hadoop-2.8.3 HA集群搭建一、集群规划  共4个节点，主机名分别是node01、node02、node03、node04  初始启动集群，node01上运行active namenode即主namenode；node02上运行standby namenode即从namenode  每个节点运行的进程如下表    机器名 运行进程    node01 NameNode&#x2F;zkfc&#x2F;Z">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271415.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271416.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271417.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271419.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271519.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271520.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271524.png">
+<meta property="og:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271526.png">
+<meta property="article:published_time" content="2020-07-18T09:38:31.000Z">
+<meta property="article:modified_time" content="2020-07-18T09:42:11.042Z">
 <meta property="article:author" content="潘子墨">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="e:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271415.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -164,129 +177,442 @@
           </div>
           <div id="js-content" class="content-ll">
             
+<article id="post-搭建Hadoop-HA-四节点详细步骤" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      搭建Hadoop HA 四节点详细步骤
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" class="archive-article-date">
+
+        
+        <a href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" class="archive-article-date">
   	<time datetime="2020-07-18T09:38:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-18</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">搭建Hadoop HA 四节点详细步骤</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="4节点hadoop-2-8-3-HA集群搭建"><a href="#4节点hadoop-2-8-3-HA集群搭建" class="headerlink" title="4节点hadoop-2.8.3 HA集群搭建"></a>4节点hadoop-2.8.3 HA集群搭建</h1><h1 id="一、集群规划"><a href="#一、集群规划" class="headerlink" title="一、集群规划"></a>一、集群规划</h1><blockquote>
+<p> 共4个节点，主机名分别是node01、node02、node03、node04</p>
+<p> 初始启动集群，node01上运行active namenode即主namenode；node02上运行standby namenode即从namenode</p>
+</blockquote>
+<p>每个节点运行的进程如下表</p>
+<table>
+<thead>
+<tr>
+<th>机器名</th>
+<th>运行进程</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node01</td>
+<td>NameNode/zkfc/Zookeepe/ResourceManager/NodeManager</td>
+</tr>
+<tr>
+<td>node02</td>
+<td>NameNode/zkfc/Zookeeper/Journalnode/DataNode/ResourceManager</td>
+</tr>
+<tr>
+<td>node03</td>
+<td>Zookeeper/Journalnode/DataNode/NodeManager</td>
+</tr>
+<tr>
+<td>node04</td>
+<td>DataNode/Journalnode/ResourceManager</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
-          
+<h1 id="二、四节点Hadoop-HA搭建"><a href="#二、四节点Hadoop-HA搭建" class="headerlink" title="二、四节点Hadoop HA搭建"></a>二、四节点Hadoop HA搭建</h1><p>准备<strong>4台</strong>虚拟机，在做四节点hadoop-2.8.3 HA安装之前，要求完成每台虚拟机的环境准备。</p>
+<h2 id="1-虚拟机环境准备"><a href="#1-虚拟机环境准备" class="headerlink" title="1. 虚拟机环境准备"></a>1. 虚拟机环境准备</h2><p>举一反三：参考安装3节点hadoop-2.8.3集群时，在解压hadoop-2.8.3.tar.gz压缩包之前的操作；</p>
+<blockquote>
+<p>windows|mac安装VMWare虚拟化软件</p>
+<p>VMWare下安装CenoOS7</p>
+<p>虚拟机关闭防火墙</p>
+<p>禁用selinux</p>
+<p>配置虚拟网卡</p>
+<p>配置虚拟机网络</p>
+<p>安装JDK</p>
+<p>配置时间同步</p>
+<p>修改主机名</p>
+<p>修改ip地址</p>
+<p>修改/etc/hosts</p>
+<p>各节点免密钥登陆</p>
+<p>重启虚拟机</p>
+</blockquote>
+<h2 id="2-安装zookeeper集群"><a href="#2-安装zookeeper集群" class="headerlink" title="2. 安装zookeeper集群"></a>2. 安装zookeeper集群</h2><p>在node01、node02、node03上安装zookeeper集群</p>
+<h3 id="1、上传文件"><a href="#1、上传文件" class="headerlink" title="1、上传文件"></a>1、上传文件</h3><h3 id="2、解压"><a href="#2、解压" class="headerlink" title="2、解压"></a>2、解压</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;root&#x2F;apps&#x2F;zk</span><br><span class="line">tar -zxvf zookeeper-3.4.6.tar.gz -C &#x2F;root&#x2F;apps&#x2F;zk</span><br></pre></td></tr></table></figure>
 
+<h3 id="3、修改配置"><a href="#3、修改配置" class="headerlink" title="3、修改配置"></a>3、修改配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;apps&#x2F;zk&#x2F;zookeeper-3.4.6&#x2F;conf</span><br><span class="line">cp zoo_sample.cfg zoo.cfg</span><br><span class="line"></span><br><span class="line">vi zoo.cfg</span><br><span class="line">#修改zoo.cfg的配置</span><br><span class="line">#1、修改dataDir</span><br><span class="line">dataDir&#x3D;&#x2F;root&#x2F;zkdata</span><br><span class="line">#2、添加Server</span><br><span class="line">server.1&#x3D;node01:2888:3888</span><br><span class="line">server.2&#x3D;node02:2888:3888</span><br><span class="line">server.3&#x3D;node03:2888:3888</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、创建myid文件"><a href="#4、创建myid文件" class="headerlink" title="4、创建myid文件"></a>4、创建myid文件</h3><p>在节点node01,node02,node03对应的/root/zkdata目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;在每个节点上新建文件夹</span><br><span class="line">mkdir &#x2F;root&#x2F;zkdata</span><br><span class="line">&#x2F;&#x2F;node01节点上</span><br><span class="line">echo 1 &gt; &#x2F;root&#x2F;zkdata&#x2F;myid</span><br><span class="line">&#x2F;&#x2F;node02执行</span><br><span class="line">echo 2 &gt; &#x2F;root&#x2F;zkdata&#x2F;myid</span><br><span class="line">&#x2F;&#x2F;node03上执行</span><br><span class="line">echo 3 &gt; &#x2F;root&#x2F;zkdata&#x2F;myid</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、复制zookeeper到其他节点"><a href="#5、复制zookeeper到其他节点" class="headerlink" title="5、复制zookeeper到其他节点"></a>5、复制zookeeper到其他节点</h3><p>在Master节点上操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;apps</span><br><span class="line">scp -r zk @node02:&#x2F;root&#x2F;apps</span><br><span class="line">scp -r zk @node03:&#x2F;root&#x2F;apps</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、启动命令"><a href="#6、启动命令" class="headerlink" title="6、启动命令"></a>6、启动命令</h3><p>需要在每个节点上挨个启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;apps&#x2F;zk&#x2F;zookeeper-3.4.6&#x2F;bin</span><br><span class="line">.&#x2F;zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+<h3 id="7、查看运行状态"><a href="#7、查看运行状态" class="headerlink" title="7、查看运行状态"></a>7、查看运行状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;zkServer.sh status</span><br></pre></td></tr></table></figure>
+
+<h3 id="8、配置批量启动脚本"><a href="#8、配置批量启动脚本" class="headerlink" title="8、配置批量启动脚本"></a>8、配置批量启动脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;apps&#x2F;zk</span><br><span class="line">vim zkstart.sh</span><br><span class="line"></span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">for host in node01 node02 node03</span><br><span class="line">do</span><br><span class="line">ssh $host &quot;source &#x2F;etc&#x2F;profile;&#x2F;root&#x2F;apps&#x2F;zk&#x2F;zookeeper-3.4.6&#x2F;bin&#x2F;zkServer.sh start&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">sleep 3</span><br><span class="line"></span><br><span class="line">for host in node01 node02 node03</span><br><span class="line">do</span><br><span class="line">ssh $host &quot;source &#x2F;etc&#x2F;profile; &#x2F;root&#x2F;apps&#x2F;zk&#x2F;zookeeper-3.4.6&#x2F;bin&#x2F;zkServer.sh status&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;修改执行权限</span><br><span class="line">chmod 777 zkstart.sh</span><br></pre></td></tr></table></figure>
+
+<p> 查看是否执行成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#先关掉zk 并在每个节点上执行</span><br><span class="line">cd zookeeper-3.4.6&#x2F;bin</span><br><span class="line">.&#x2F;zkServer.sh stop</span><br><span class="line"></span><br><span class="line">#执行脚本</span><br><span class="line">cd &#x2F;root&#x2F;apps&#x2F;zk</span><br><span class="line">zkstart.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-四节点Hadoop-HA搭建"><a href="#3-四节点Hadoop-HA搭建" class="headerlink" title="3. 四节点Hadoop HA搭建"></a>3. 四节点Hadoop HA搭建</h2><blockquote>
+<p><font color=red><strong>请根据自己的实际情况修改</strong></font></p>
+</blockquote>
+<h3 id="3-1-解压hadoop压缩包"><a href="#3-1-解压hadoop压缩包" class="headerlink" title="3.1 解压hadoop压缩包"></a>3.1 解压hadoop压缩包</h3><p>在node-01上解压hadoop压缩包到用户主目录(<strong>~</strong>表示用户主目录/home/root)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">压缩包在/root/apps</span></span><br><span class="line">cd /root/apps</span><br><span class="line">tar -xzvf hadoop-2.8.3.tar.gz -C ~</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="3-2-修改hadoop-env-sh"><a href="#3-2-修改hadoop-env-sh" class="headerlink" title="3.2 修改hadoop-env.sh"></a>3.2 修改hadoop-env.sh</h3><p>hadoop2.x的配置文件全部在$HADOOP_HOME/etc/hadoop下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd $HADOOP_HOME/etc/hadoop</span><br></pre></td></tr></table></figure>
+
+<p>修改hadoop-env.sh；保存退出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_211-amd64</span><br></pre></td></tr></table></figure>
+
+<p>注意：JAVA_HOME值修改为<font color=red><strong>自己jdk的实际目录</strong></font></p>
+<h3 id="3-3-修改core-site-xml"><a href="#3-3-修改core-site-xml" class="headerlink" title="3.3 修改core-site.xml"></a>3.3 修改core-site.xml</h3><blockquote>
+<p><strong>注意：</strong></p>
+<p><strong>情况一：值/home/bruce/hadoop-2.7.3/tmp根据实际情况修改</strong></p>
+<p><strong>情况二：值node-01:2181,node-02:2181,node-03:2181根据实际情况修改，修改成安装了zookeeper的虚拟机的主机名</strong></p>
+</blockquote>
+<p>mkdir /root/apps/hadoopdata</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定hdfs的nameservice为ns1 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定hadoop临时目录 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>/root/apps/hadoopdata/hdptmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定zookeeper地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>ha.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01:2181,node02:2181,node03:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-修改hdfs-site-xml"><a href="#3-4-修改hdfs-site-xml" class="headerlink" title="3.4 修改hdfs-site.xml"></a>3.4 修改hdfs-site.xml</h3><p>新建/root/apps/hadoopdata/journaldata目录</p>
+<p>/root/hdpdata/name/</p>
+<p>/root/hdpdata/data/</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>/root/hdpdata/name/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>/root/hdpdata/data/<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!--指定hdfs的nameservice为ns1，需要和core-site.xml中的保持一致 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.nameservices<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- ns1下面有两个NameNode，分别是nn1，nn2 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.namenodes.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>nn1,nn2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- nn1的RPC通信地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- nn1的http通信地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- nn2的RPC通信地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node02:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- nn2的http通信地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node02:50070<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定NameNode的元数据在JournalNode上的存放位置 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.shared.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>qjournal://node02:8485;node03:8485;node04:8485/ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定JournalNode在本地磁盘存放数据的位置 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.journalnode.edits.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>/root/apps/hadoopdata/journaldata<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 开启NameNode失败自动切换 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.automatic-failover.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 配置失败自动切换实现方式 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.client.failover.proxy.provider.ns1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 配置隔离机制方法，多个机制用换行分割，即每个机制暂用一行--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.methods<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">		sshfence</span><br><span class="line">		shell(/bin/true)</span><br><span class="line">		<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 使用sshfence隔离机制时需要ssh免登陆 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.private-key-files<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>/root/.ssh/id_rsa<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 配置sshfence隔离机制超时时间 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.ha.fencing.ssh.connect-timeout<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>30000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-修改mapred-site-xml"><a href="#3-5-修改mapred-site-xml" class="headerlink" title="3.5 修改mapred-site.xml"></a>3.5 修改mapred-site.xml</h3><p>重命名文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv mapred-site.xml.template mapred-site.xml</span><br></pre></td></tr></table></figure>
+
+<p>修改mapred-site.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定mr框架为yarn方式 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-6-修改yarn-site-xml"><a href="#3-6-修改yarn-site-xml" class="headerlink" title="3.6 修改yarn-site.xml"></a>3.6 修改yarn-site.xml</h3><blockquote>
+<p><strong>注意：</strong></p>
+<p><strong>情况一：属性yarn.resourcemanager.hostname.rm1的值node-04根据实际情况替换</strong></p>
+<p><strong>情况二：属性yarn.resourcemanager.hostname.rm2的值node-05根据实际情况替换</strong></p>
+<p><strong>情况三：属性值node-01:2181,node-02:2181,node-03:2181根据实际情况替换；替换成实际安装zookeeper的虚拟机的主机名</strong></p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 开启RM高可靠 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定RM的cluster id为pic --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>pic<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定RM的名字 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1,rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 分别指定RM的地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node02<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定zk集群地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01:2181,node02:2181,node03:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.memory-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>2048<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.cpu-vcores<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.pmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4. 在hadoop-env.sh和yarn-env.sh中都添加JAVA_HOME</span><br><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_211-amd64</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-7-修改slaves"><a href="#3-7-修改slaves" class="headerlink" title="3.7 修改slaves"></a>3.7 修改slaves</h3><blockquote>
+<p>node-01、node-02、node-03上运行了datanode、nodemanager，所以修改slaves内容<strong>替换</strong>为：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node02</span><br><span class="line">node03</span><br><span class="line">node04</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-8-远程拷贝hadoop文件夹"><a href="#3-8-远程拷贝hadoop文件夹" class="headerlink" title="3.8 远程拷贝hadoop文件夹"></a>3.8 远程拷贝hadoop文件夹</h3><blockquote>
+<p> 说明：~表示用户主目录</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scp -r /root/apps/hadoop-2.8.3 node02:/root/apps</span><br><span class="line">scp -r /root/apps/hadoop-2.8.3 node03:/root/apps</span><br><span class="line">scp -r /root/apps/hadoop-2.8.3 node04:/root/apps</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-9-配置环境变量"><a href="#3-9-配置环境变量" class="headerlink" title="3.9 配置环境变量"></a>3.9 配置环境变量</h3><blockquote>
+<p><strong>node01到node04五个节点，<font color='red'>都配置环境变量</font></strong></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将hadoop添加到环境变量中</span></span><br><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>添加内容如下（注意：若HADOOP_HOME已经存在，则修改）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/root/apps/hadoop-2.8.3</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</span><br><span class="line"></span><br><span class="line">scp -r /etc/profile node02:/etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>编译文件，使新增环境变量生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-启动与初始化hadoop集群"><a href="#4-启动与初始化hadoop集群" class="headerlink" title="4. 启动与初始化hadoop集群"></a>4. 启动与初始化hadoop集群</h2><blockquote>
+<p> <strong>注意：</strong>严格按照下面的步骤 先检查各台hadoop环境变量是否设置好</p>
+</blockquote>
+<h3 id="4-1-启动zookeeper集群"><a href="#4-1-启动zookeeper集群" class="headerlink" title="4.1 启动zookeeper集群"></a>4.1 启动zookeeper集群</h3><blockquote>
+<p> 注意：根据zookeeper实际安装情况，启动zookeeper</p>
+</blockquote>
+<p>分别在node-01、node-02、node-03上启动zookeeper</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+<p>#查看状态：一个为leader，另外两个为follower</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh status</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-启动journalnode"><a href="#4-2-启动journalnode" class="headerlink" title="4.2 启动journalnode"></a>4.2 启动journalnode</h3><p>分别在node02、node03、node04上执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start journalnode</span><br></pre></td></tr></table></figure>
+
+<p>#运行jps命令检验，node02、node03、node04上上多了JournalNode进程</p>
+<h3 id="4-3-格式化HDFS"><a href="#4-3-格式化HDFS" class="headerlink" title="4.3 格式化HDFS"></a>4.3 格式化HDFS</h3><blockquote>
+<p>#根据集群规划node01、node02上运行namenode；所以<font color='red'><strong>只在主namenode节点</strong></font>即node01上执行命令:</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /root/apps/hadoop-2.8.3</span><br><span class="line">bin/hdfs namenode -format</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-拷贝hadoop-tmp-dir"><a href="#4-4-拷贝hadoop-tmp-dir" class="headerlink" title="4.4 拷贝hadoop.tmp.dir"></a>4.4 拷贝hadoop.tmp.dir</h3><blockquote>
+<p>格式化后会根据core-site.xml中的hadoop.tmp.dir属性值/root/apps/hadoopdata/hdptmp，并生成此文件夹</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r /root/apps/hadoopdata/hdptmp node-02:/root/apps/hadoopdata/</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-格式化ZK"><a href="#4-4-格式化ZK" class="headerlink" title="4.4 格式化ZK"></a>4.4 格式化ZK</h3><blockquote>
+<p>在<strong>node01</strong>上执行即可</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs zkfc -formatZK</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-启动HDFS"><a href="#4-5-启动HDFS" class="headerlink" title="4.5 启动HDFS"></a>4.5 启动HDFS</h3><blockquote>
+<p>只在<font color='red'><strong>主namenode</strong></font>节点node01上执行</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-6-启动YARN"><a href="#4-6-启动YARN" class="headerlink" title="4.6 启动YARN"></a>4.6 启动YARN</h3><h4 id="4-6-1-主resourcemanager"><a href="#4-6-1-主resourcemanager" class="headerlink" title="4.6.1 主resourcemanager"></a>4.6.1 <strong>主resourcemanager</strong></h4><blockquote>
+<p><strong>注意：只在<font color='red'>主resourcemanager</font>即</strong>node01上执行start-yarn.sh</p>
+<p>把namenode和resourcemanager部署在不同节点，是因为性能问题，因为他们都要占用大量资源</p>
+<p><font color='red'>坑</font>：在node01上启动yarn之前，先依次从node01 ssh远程连接到node02、node03、node04；因为初次ssh时，需要交互，输入yes，回车</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-6-2-从resourcemanager"><a href="#4-6-2-从resourcemanager" class="headerlink" title="4.6.2 从resourcemanager"></a>4.6.2 从resourcemanager</h4><p>在<font color='red'>从resourcemanager</font>即node02上启动rm</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh start resourcemanager</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-验证集群是否可用"><a href="#5-验证集群是否可用" class="headerlink" title="5. 验证集群是否可用"></a>5. 验证集群是否可用</h2><h3 id="5-1-验证HDFS-HA"><a href="#5-1-验证HDFS-HA" class="headerlink" title="5.1 验证HDFS HA"></a>5.1 验证HDFS HA</h3><h4 id="5-1-1-访问WEB-UI"><a href="#5-1-1-访问WEB-UI" class="headerlink" title="5.1.1 访问WEB UI"></a>5.1.1 访问WEB UI</h4><blockquote>
+<p>node-01、node-02一主一备</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://node-01:50070</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271415.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-02:50070</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271416.png" alt=""></p>
+<h4 id="5-1-2-模拟主备切换"><a href="#5-1-2-模拟主备切换" class="headerlink" title="5.1.2 模拟主备切换"></a>5.1.2 模拟主备切换</h4><p>在主namenode节点，运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh stop namenode</span><br></pre></td></tr></table></figure>
+
+<p>访问之前为”备namenode”的WEB UI；发现状态更新为active</p>
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271417.png" alt=""></p>
+<p>启动刚才手动停掉的namenode</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start namenode</span><br></pre></td></tr></table></figure>
+
+<p>访问它的WEB UI，发现状态更新为standby</p>
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271419.png" alt=""></p>
+<h3 id="5-2-验证Yarn-HA"><a href="#5-2-验证Yarn-HA" class="headerlink" title="5.2 验证Yarn HA"></a>5.2 验证Yarn HA</h3><blockquote>
+<p>node-04、node-05主备切换</p>
+</blockquote>
+<h4 id="5-2-1-访问WEB-UI"><a href="#5-2-1-访问WEB-UI" class="headerlink" title="5.2.1 访问WEB UI"></a>5.2.1 访问WEB UI</h4><p>node-04浏览器访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-04:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271519.png" alt=""></p>
+<p>node-05浏览器访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-05:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271520.png" alt=""></p>
+<h4 id="5-2-2-模拟主备切换"><a href="#5-2-2-模拟主备切换" class="headerlink" title="5.2.2 模拟主备切换"></a>5.2.2 模拟主备切换</h4><p>在主resourcemanager节点，运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh stop resourcemanager</span><br></pre></td></tr></table></figure>
+
+<p>访问之前为”备resourcemanager”的WEB UI；发现状态更新为active</p>
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271524.png" alt=""></p>
+<p>启动刚才手动停掉的resourcemanager</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh start resourcemanager</span><br></pre></td></tr></table></figure>
+
+<p>访问它的WEB UI，发现状态更新为standby</p>
+<p><img src="E:%5Cblog%5Csource_posts%5C%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4.assets%5CImage201907271526.png" alt=""></p>
+<h4 id="5-2-3-运行MR示例"><a href="#5-2-3-运行MR示例" class="headerlink" title="5.2.3 运行MR示例"></a>5.2.3 运行MR示例</h4><p>运行一下hadoop示例中的WordCount程序：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -put /home/bruce/hadoop-2.7.3/LICENSE.txt /</span><br><span class="line">hadoop jar hadoop-2.7.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /LICENSE.txt /w0727</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-集群常用命令"><a href="#6-集群常用命令" class="headerlink" title="6. 集群常用命令"></a>6. 集群常用命令</h2><h3 id="6-1-关闭Hadoop-HA集群"><a href="#6-1-关闭Hadoop-HA集群" class="headerlink" title="6.1 关闭Hadoop HA集群"></a>6.1 关闭Hadoop HA集群</h3><blockquote>
+<p>正确指令执行顺序如下</p>
+</blockquote>
+<p>主namenode上运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<p>主resoucemanager上运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<p>从resoucemanager上运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh stop resourcemanager</span><br></pre></td></tr></table></figure>
+
+<p>关闭zookeeper集群；每个zk服务器运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh stop</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-常用命令"><a href="#6-2-常用命令" class="headerlink" title="6.2 常用命令"></a>6.2 常用命令</h3><p>单独启动namenode</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start namenode</span><br></pre></td></tr></table></figure>
+
+<p>单独启动datanode</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start datanode</span><br></pre></td></tr></table></figure>
+
+<p>单独启动journalnode</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start journalnode</span><br></pre></td></tr></table></figure>
+
+<p>启动zookeeper</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+<p>启动hdfs</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<p>启动yarn</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<p>单独启动resorucemanager</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh start resouremanger</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat-pay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mojo1113.github.io/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/17/About-me/" class="archive-article-date">
-  	<time datetime="2020-07-17T09:59:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/17/About-me/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">About me</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/17/About-me/">About me</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#4节点hadoop-2-8-3-HA集群搭建"><span class="toc-number">1.</span> <span class="toc-text">4节点hadoop-2.8.3 HA集群搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、集群规划"><span class="toc-number">2.</span> <span class="toc-text">一、集群规划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、四节点Hadoop-HA搭建"><span class="toc-number">3.</span> <span class="toc-text">二、四节点Hadoop HA搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-虚拟机环境准备"><span class="toc-number">3.1.</span> <span class="toc-text">1. 虚拟机环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-安装zookeeper集群"><span class="toc-number">3.2.</span> <span class="toc-text">2. 安装zookeeper集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、上传文件"><span class="toc-number">3.2.1.</span> <span class="toc-text">1、上传文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、解压"><span class="toc-number">3.2.2.</span> <span class="toc-text">2、解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、修改配置"><span class="toc-number">3.2.3.</span> <span class="toc-text">3、修改配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、创建myid文件"><span class="toc-number">3.2.4.</span> <span class="toc-text">4、创建myid文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、复制zookeeper到其他节点"><span class="toc-number">3.2.5.</span> <span class="toc-text">5、复制zookeeper到其他节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、启动命令"><span class="toc-number">3.2.6.</span> <span class="toc-text">6、启动命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、查看运行状态"><span class="toc-number">3.2.7.</span> <span class="toc-text">7、查看运行状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、配置批量启动脚本"><span class="toc-number">3.2.8.</span> <span class="toc-text">8、配置批量启动脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-四节点Hadoop-HA搭建"><span class="toc-number">3.3.</span> <span class="toc-text">3. 四节点Hadoop HA搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-解压hadoop压缩包"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.1 解压hadoop压缩包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-修改hadoop-env-sh"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.2 修改hadoop-env.sh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-修改core-site-xml"><span class="toc-number">3.3.3.</span> <span class="toc-text">3.3 修改core-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-修改hdfs-site-xml"><span class="toc-number">3.3.4.</span> <span class="toc-text">3.4 修改hdfs-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-修改mapred-site-xml"><span class="toc-number">3.3.5.</span> <span class="toc-text">3.5 修改mapred-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-修改yarn-site-xml"><span class="toc-number">3.3.6.</span> <span class="toc-text">3.6 修改yarn-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-修改slaves"><span class="toc-number">3.3.7.</span> <span class="toc-text">3.7 修改slaves</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-远程拷贝hadoop文件夹"><span class="toc-number">3.3.8.</span> <span class="toc-text">3.8 远程拷贝hadoop文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9-配置环境变量"><span class="toc-number">3.3.9.</span> <span class="toc-text">3.9 配置环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-启动与初始化hadoop集群"><span class="toc-number">3.4.</span> <span class="toc-text">4. 启动与初始化hadoop集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-启动zookeeper集群"><span class="toc-number">3.4.1.</span> <span class="toc-text">4.1 启动zookeeper集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-启动journalnode"><span class="toc-number">3.4.2.</span> <span class="toc-text">4.2 启动journalnode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-格式化HDFS"><span class="toc-number">3.4.3.</span> <span class="toc-text">4.3 格式化HDFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-拷贝hadoop-tmp-dir"><span class="toc-number">3.4.4.</span> <span class="toc-text">4.4 拷贝hadoop.tmp.dir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-格式化ZK"><span class="toc-number">3.4.5.</span> <span class="toc-text">4.4 格式化ZK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-启动HDFS"><span class="toc-number">3.4.6.</span> <span class="toc-text">4.5 启动HDFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-启动YARN"><span class="toc-number">3.4.7.</span> <span class="toc-text">4.6 启动YARN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-6-1-主resourcemanager"><span class="toc-number">3.4.7.1.</span> <span class="toc-text">4.6.1 主resourcemanager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-6-2-从resourcemanager"><span class="toc-number">3.4.7.2.</span> <span class="toc-text">4.6.2 从resourcemanager</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-验证集群是否可用"><span class="toc-number">3.5.</span> <span class="toc-text">5. 验证集群是否可用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-验证HDFS-HA"><span class="toc-number">3.5.1.</span> <span class="toc-text">5.1 验证HDFS HA</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-1-访问WEB-UI"><span class="toc-number">3.5.1.1.</span> <span class="toc-text">5.1.1 访问WEB UI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-2-模拟主备切换"><span class="toc-number">3.5.1.2.</span> <span class="toc-text">5.1.2 模拟主备切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-验证Yarn-HA"><span class="toc-number">3.5.2.</span> <span class="toc-text">5.2 验证Yarn HA</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1-访问WEB-UI"><span class="toc-number">3.5.2.1.</span> <span class="toc-text">5.2.1 访问WEB UI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2-模拟主备切换"><span class="toc-number">3.5.2.2.</span> <span class="toc-text">5.2.2 模拟主备切换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-3-运行MR示例"><span class="toc-number">3.5.2.3.</span> <span class="toc-text">5.2.3 运行MR示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-集群常用命令"><span class="toc-number">3.6.</span> <span class="toc-text">6. 集群常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-关闭Hadoop-HA集群"><span class="toc-number">3.6.1.</span> <span class="toc-text">6.1 关闭Hadoop HA集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-常用命令"><span class="toc-number">3.6.2.</span> <span class="toc-text">6.2 常用命令</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/17/HTML/" class="archive-article-date">
-  	<time datetime="2020-07-17T08:50:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-17</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/17/HTML/">HTML基础总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/17/hello-world/" class="archive-article-date">
-  	<time datetime="2020-07-17T05:55:40.380Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/17/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -312,8 +638,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
