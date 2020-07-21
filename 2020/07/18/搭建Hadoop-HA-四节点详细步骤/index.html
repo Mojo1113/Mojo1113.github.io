@@ -15,20 +15,16 @@
 <meta property="og:site_name" content="Zimo&#39;s Blog">
 <meta property="og:description" content="4节点hadoop-2.8.3 HA集群搭建一、集群规划  共4个节点，主机名分别是node01、node02、node03、node04  初始启动集群，node01上运行active namenode即主namenode；node02上运行standby namenode即从namenode  每个节点运行的进程如下表    机器名 运行进程    node01 NameNode&#x2F;zkfc&#x2F;Z">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/ZXrybdBCs7pz4PF.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/ZWFOQR6Hs2mtMgk.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/prQsvdSDuyE1L7i.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/MQ5fExqsnOoamp7.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/mckounH9EBqUfrs.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/NYxcqiwRhPSn4uQ.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/KNw8aRLuZ52BFpJ.png">
-<meta property="og:image" content="https://i.loli.net/2020/07/18/zDn1McJiESdbhKm.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/21/sqVCu4cy3ZSdQp6.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/21/G5uWoyibQjl9Svs.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/21/sLD8vVjH6zwXSJY.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/21/nd4HoAPs5IpV9Kl.png">
 <meta property="article:published_time" content="2020-07-18T09:38:31.000Z">
-<meta property="article:modified_time" content="2020-07-20T09:17:09.103Z">
+<meta property="article:modified_time" content="2020-07-21T01:41:27.790Z">
 <meta property="article:author" content="潘子墨">
 <meta property="article:tag" content="Hadoop HA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2020/07/18/ZXrybdBCs7pz4PF.png">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/21/sqVCu4cy3ZSdQp6.png">
   
     <link rel="alternative" href="/atom.xml" title="Zimo&#39;s Blog" type="application/atom+xml">
   
@@ -291,8 +287,8 @@
 <p>注意：JAVA_HOME值修改为<font color=red><strong>自己jdk的实际目录</strong></font></p>
 <h3 id="3-3-修改core-site-xml"><a href="#3-3-修改core-site-xml" class="headerlink" title="3.3 修改core-site.xml"></a>3.3 修改core-site.xml</h3><blockquote>
 <p><strong>注意：</strong></p>
-<p><strong>情况一：值/home/bruce/hadoop-2.7.3/tmp根据实际情况修改</strong></p>
-<p><strong>情况二：值node-01:2181,node-02:2181,node-03:2181根据实际情况修改，修改成安装了zookeeper的虚拟机的主机名</strong></p>
+<p><strong>情况一：值/root/apps/hadoopdata/hdptmp根据实际情况修改</strong></p>
+<p><strong>情况二：值node01:2181,node02:2181,node03:2181根据实际情况修改，修改成安装了zookeeper的虚拟机的主机名</strong></p>
 </blockquote>
 <p>mkdir /root/apps/hadoopdata</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定hdfs的nameservice为ns1 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://ns1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定hadoop临时目录 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>/root/apps/hadoopdata/hdptmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定zookeeper地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>ha.zookeeper.quorum<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01:2181,node02:2181,node03:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -312,7 +308,7 @@
 <p><strong>注意：</strong></p>
 <p><strong>情况一：属性yarn.resourcemanager.hostname.rm1的值node-04根据实际情况替换</strong></p>
 <p><strong>情况二：属性yarn.resourcemanager.hostname.rm2的值node-05根据实际情况替换</strong></p>
-<p><strong>情况三：属性值node-01:2181,node-02:2181,node-03:2181根据实际情况替换；替换成实际安装zookeeper的虚拟机的主机名</strong></p>
+<p><strong>情况三：属性值node01:2181,node02:2181,node03:2181根据实际情况替换；替换成实际安装zookeeper的虚拟机的主机名</strong></p>
 </blockquote>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 开启RM高可靠 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定RM的cluster id为pic --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>pic<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定RM的名字 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>rm1,rm2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 分别指定RM的地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node02<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 指定zk集群地址 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>node01:2181,node02:2181,node03:2181<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.memory-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>2048<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.cpu-vcores<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.pmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -347,7 +343,7 @@
 <h3 id="4-1-启动zookeeper集群"><a href="#4-1-启动zookeeper集群" class="headerlink" title="4.1 启动zookeeper集群"></a>4.1 启动zookeeper集群</h3><blockquote>
 <p> 注意：根据zookeeper实际安装情况，启动zookeeper</p>
 </blockquote>
-<p>分别在node-01、node-02、node-03上启动zookeeper</p>
+<p>分别在node01、node02、node03上启动zookeeper</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start</span><br></pre></td></tr></table></figure>
 
 <p>#查看状态：一个为leader，另外两个为follower</p>
@@ -388,47 +384,43 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh start resourcemanager</span><br></pre></td></tr></table></figure>
 
 <h2 id="5-验证集群是否可用"><a href="#5-验证集群是否可用" class="headerlink" title="5. 验证集群是否可用"></a>5. 验证集群是否可用</h2><h3 id="5-1-验证HDFS-HA"><a href="#5-1-验证HDFS-HA" class="headerlink" title="5.1 验证HDFS HA"></a>5.1 验证HDFS HA</h3><h4 id="5-1-1-访问WEB-UI"><a href="#5-1-1-访问WEB-UI" class="headerlink" title="5.1.1 访问WEB UI"></a>5.1.1 访问WEB UI</h4><blockquote>
-<p>node-01、node-02一主一备</p>
+<p>node01、node02一主一备</p>
 </blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://node-01:50070</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://node01:50070</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/07/18/ZXrybdBCs7pz4PF.png" alt="Image201907271415.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-02:50070</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/07/21/sqVCu4cy3ZSdQp6.png" alt="node01Active.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node02:50070</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/07/18/ZWFOQR6Hs2mtMgk.png" alt="Image201907271416.png"></p>
+<p><img src="https://i.loli.net/2020/07/21/G5uWoyibQjl9Svs.png" alt="node02Standby.png"></p>
 <h4 id="5-1-2-模拟主备切换"><a href="#5-1-2-模拟主备切换" class="headerlink" title="5.1.2 模拟主备切换"></a>5.1.2 模拟主备切换</h4><p>在主namenode节点，运行</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh stop namenode</span><br></pre></td></tr></table></figure>
 
 <p>访问之前为”备namenode”的WEB UI；发现状态更新为active</p>
-<p><img src="https://i.loli.net/2020/07/18/prQsvdSDuyE1L7i.png" alt="Image201907271417.png"></p>
 <p>启动刚才手动停掉的namenode</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop-daemon.sh start namenode</span><br></pre></td></tr></table></figure>
 
 <p>访问它的WEB UI，发现状态更新为standby</p>
-<p><img src="https://i.loli.net/2020/07/18/MQ5fExqsnOoamp7.png" alt="Image201907271419.png"></p>
 <h3 id="5-2-验证Yarn-HA"><a href="#5-2-验证Yarn-HA" class="headerlink" title="5.2 验证Yarn HA"></a>5.2 验证Yarn HA</h3><blockquote>
-<p>node-04、node-05主备切换</p>
+<p>node01、node02主备切换</p>
 </blockquote>
-<h4 id="5-2-1-访问WEB-UI"><a href="#5-2-1-访问WEB-UI" class="headerlink" title="5.2.1 访问WEB UI"></a>5.2.1 访问WEB UI</h4><p>node-04浏览器访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-04:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
+<h4 id="5-2-1-访问WEB-UI"><a href="#5-2-1-访问WEB-UI" class="headerlink" title="5.2.1 访问WEB UI"></a>5.2.1 访问WEB UI</h4><p>node01浏览器访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node01:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/07/18/mckounH9EBqUfrs.png" alt="Image201907271519.png"></p>
-<p>node-05浏览器访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node-05:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/07/21/sLD8vVjH6zwXSJY.png" alt="node01Yarn.png"></p>
+<p>node02浏览器访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;node02:8088&#x2F;cluster&#x2F;cluster</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2020/07/18/NYxcqiwRhPSn4uQ.png" alt="Image201907271520.png"></p>
+<p><img src="https://i.loli.net/2020/07/21/nd4HoAPs5IpV9Kl.png" alt="node02Yarn.png"></p>
 <h4 id="5-2-2-模拟主备切换"><a href="#5-2-2-模拟主备切换" class="headerlink" title="5.2.2 模拟主备切换"></a>5.2.2 模拟主备切换</h4><p>在主resourcemanager节点，运行</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh stop resourcemanager</span><br></pre></td></tr></table></figure>
 
 <p>访问之前为”备resourcemanager”的WEB UI；发现状态更新为active</p>
-<p><img src="https://i.loli.net/2020/07/18/KNw8aRLuZ52BFpJ.png" alt="Image201907271524.png"></p>
 <p>启动刚才手动停掉的resourcemanager</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn-daemon.sh start resourcemanager</span><br></pre></td></tr></table></figure>
 
 <p>访问它的WEB UI，发现状态更新为standby</p>
-<p><img src="https://i.loli.net/2020/07/18/zDn1McJiESdbhKm.png" alt="Image201907271526.png"></p>
 <h4 id="5-2-3-运行MR示例"><a href="#5-2-3-运行MR示例" class="headerlink" title="5.2.3 运行MR示例"></a>5.2.3 运行MR示例</h4><p>运行一下hadoop示例中的WordCount程序：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -put /home/bruce/hadoop-2.7.3/LICENSE.txt /</span><br><span class="line">hadoop jar hadoop-2.7.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /LICENSE.txt /w0727</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -put /root/hadoop-2.7.3/LICENSE.txt /</span><br><span class="line">hadoop jar hadoop-2.7.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar wordcount /LICENSE.txt /w0727</span><br></pre></td></tr></table></figure>
 
 
 
@@ -750,10 +742,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ZooKeeper</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Spark</a>
               </li>
              
@@ -762,11 +750,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hadoop HA</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hadoop HA</a>
+                <a href="javascript:void(0)" class="js-tag color5">ZooKeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
               </li>
             
             <div class="clearfix"></div>
