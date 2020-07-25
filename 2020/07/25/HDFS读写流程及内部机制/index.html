@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Git | Zimo&#39;s Blog</title>
+  <title>HDFS读写流程及内部机制 | Zimo&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zimo&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/Git/index.html">
+  <meta name="description" content="HDFS读写流程写文件1、 客户端通过hdfs的分布式文件系统对NameNode发起RPC请求 2、 NameNode检查该文件是否存在，当前Client是否有权限进行操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDFS读写流程及内部机制">
+<meta property="og:url" content="http://yoursite.com/2020/07/25/HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%8F%8A%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="Zimo&#39;s Blog">
+<meta property="og:description" content="HDFS读写流程写文件1、 客户端通过hdfs的分布式文件系统对NameNode发起RPC请求 2、 NameNode检查该文件是否存在，当前Client是否有权限进行操作">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/07/25/SVRPBoGabOz7mZg.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/25/H8UpQzwi7BYsIDO.png">
+<meta property="article:published_time" content="2020-07-25T04:16:48.000Z">
+<meta property="article:modified_time" content="2020-07-25T04:23:02.119Z">
 <meta property="article:author" content="潘子墨">
+<meta property="article:tag" content="HDFS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/25/SVRPBoGabOz7mZg.png">
   
     <link rel="alternative" href="/atom.xml" title="Zimo&#39;s Blog" type="application/atom+xml">
   
@@ -170,74 +178,238 @@
           </div>
           <div id="js-content" class="content-ll">
             
-  
-  
+<article id="post-HDFS读写流程及内部机制" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/21/Git%E5%AE%9E%E7%94%A8%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-07-21T13:47:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/Git%E5%AE%9E%E7%94%A8%E6%80%BB%E7%BB%93/">Git实用总结</a>
+    <h1 class="article-title" itemprop="name">
+      HDFS读写流程及内部机制
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/07/25/HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%8F%8A%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2020-07-25T04:16:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="HDFS读写流程"><a href="#HDFS读写流程" class="headerlink" title="HDFS读写流程"></a>HDFS读写流程</h2><h3 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a><strong>写文件</strong></h3><p>1、 客户端通过hdfs的分布式文件系统对NameNode发起RPC请求</p>
+<p>2、 NameNode检查该文件是否存在，当前Client是否有权限进行操作</p>
+<a id="more"></a>
+
+<p>3、 客户端在允许访问后，将文件分成多个packets，并在内部以数据队列的形式管理</p>
+<p>4、 向NameNode申请blocks，获取存储副本的DataNode列表</p>
+<p>5、 NameNode在DataNode信息池查询可用的DataNode信息</p>
+<p>6、 NameNode返回可用的DataNode服务器列表</p>
+<p>7、 Client端向DataNode服务器中最近的一台Node1请求建立传输通道Channel，建立Pipe Line，并以此传递到下一个Node</p>
+<p>8、 承接上一步，将相应主机返回给客户机</p>
+<p>9、 成功应答后，Client开始向Node1上传第一个Block，以packet为单位，依次传递</p>
+<p>10、当第一个Block传输完成后，Client再次请求NameNode上传第二个Block的服务器，知道全部上传完毕</p>
+<p>11、当客户端完成数据写入后，对数据流调用close方法关闭流，释放资源。</p>
+<p><img src="https://i.loli.net/2020/07/25/SVRPBoGabOz7mZg.png" alt="写文件.png"></p>
+<h3 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a><strong>读文件</strong></h3><p>1、 客户端通过hdfs的分布式文件系统对NameNode发起RPC请求读取文件</p>
+<p>2、 NameNode查询文件的元数据，找到文件快所在的DataNode服务器</p>
+<p>3、 NameNode向Client端返回目标文件的元数据</p>
+<p>4、 Client挑选第一台DataNode服务器（就近原则，之后随机），请求读取数据块BLK_1并请求建立socket流</p>
+<p>5、 DataNode与Client建立socket流，并开始传输数据</p>
+<p>6、 之后随机挑选服务器，并获取剩余的block块</p>
+<p>7、 客户端以packet为单位接收来自DataNode服务器的数据，先本地缓存，以追加的模式合并目标文件，再把目标文件写入本地</p>
+<p>8、 最后关流，释放资源。</p>
+<p><img src="https://i.loli.net/2020/07/25/H8UpQzwi7BYsIDO.png" alt="读文件.png"></p>
+<h2 id="内部机制"><a href="#内部机制" class="headerlink" title="内部机制"></a><strong>内部机制</strong></h2><h3 id="心跳机制"><a href="#心跳机制" class="headerlink" title="-   心跳机制"></a>-   <strong>心跳机制</strong></h3><p>1、 工作原理：DataNode启动后，连接到NameNode，每隔三秒会向NameNode发送一个“心跳”，并携带状态信息，NameNode通过心跳的返回值，向DataNode节点传达指令</p>
+<p>2、 作用：</p>
+<p>（1）   NameNode管理数据块的负责，可以周期性地从集群中每个DataNode接受的心跳信号，判断该DataNode节点工作是否正常</p>
+<p>（2）   心跳间隔默认为3秒，如果NameNode连续10次没有收到DataNode的心跳报告，就认为该DataNode可能死亡。此时NameNode向该DataNode发送一次检查，时间为5分钟，如果一次检查没有返回信息，将会再进行一次，再没有返回检查信息，将断定该DataNode死亡</p>
+<p>（3）   Hadoop集群刚开始启动时，会进入到安全模式，用到了心跳机制</p>
+<h3 id="安全机制"><a href="#安全机制" class="headerlink" title="-   安全机制"></a>-   <strong>安全机制</strong></h3><p>在HDFS的启动命令执行的时候，HDFS会先自动进入安全模式，且在HDFS发现自身信息不完整时，会自动进入安全模式，保护自己，正常启动，则会推出安全模式，可以通过API命令查看并更改安全模式，在安全模式下，修改操作十分受限。</p>
+<h3 id="副本机制"><a href="#副本机制" class="headerlink" title="-   副本机制"></a>-   <strong>副本机制</strong></h3><p>HDFS默认保存3个副本，可以在副本丢失或宕机时自动恢复，第一副本放置在客户端所在节点，第二个副本放置在与第一个副本不同的机架节点上，第三个副本放在与第二个副本相同机架不同节点上，如果有更多副本，随机放在节点中。</p>
+<h3 id="冷备份-amp-热备份"><a href="#冷备份-amp-热备份" class="headerlink" title="-   冷备份&amp;热备份"></a>-   <strong>冷备份&amp;热备份</strong></h3><p>冷备份：通过edits.log文件，每当元数据有更新时，同步追加到edits.log文件中，追加效率高，且NameNode节点断电，可以通过与fsImage的结合合成元数据，但是如果文件数据过大，效率将会降低，引用SecondaryNameNode，专门用于fsImage与edits.log的合并</p>
+<p>热备份：HA高可用</p>
+<p>目的：节约内存、防止NameNode宕机</p>
+<p>基于zookeeper</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat-pay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Git</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HDFS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/其它//" class="article-tag-list-link color3">其它</a>
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/其它/Git//" class="article-tag-list-link color4">Git</a>
+        			<a href="/categories/大数据/HDFS//" class="article-tag-list-link color5">HDFS</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mojo1113.github.io/2020/07/25/HDFS%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%8F%8A%E5%86%85%E9%83%A8%E6%9C%BA%E5%88%B6/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/07/24/ETL%E6%8A%BD%E5%8F%96%E6%A1%88%E4%BE%8B%E2%80%94%E2%80%94%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E6%95%B0%E6%8D%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ETL抽取案例——用户行为数据</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS读写流程"><span class="toc-number">1.</span> <span class="toc-text">HDFS读写流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#写文件"><span class="toc-number">1.1.</span> <span class="toc-text">写文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读文件"><span class="toc-number">1.2.</span> <span class="toc-text">读文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部机制"><span class="toc-number">2.</span> <span class="toc-text">内部机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#心跳机制"><span class="toc-number">2.1.</span> <span class="toc-text">-   心跳机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全机制"><span class="toc-number">2.2.</span> <span class="toc-text">-   安全机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#副本机制"><span class="toc-number">2.3.</span> <span class="toc-text">-   副本机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#冷备份-amp-热备份"><span class="toc-number">2.4.</span> <span class="toc-text">-   冷备份&amp;热备份</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -263,9 +435,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
