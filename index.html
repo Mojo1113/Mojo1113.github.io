@@ -246,6 +246,105 @@
 
 
   
+    <article id="post-大数据知识总结-002" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93-002/">大数据知识总结-002</a>
+    </h1>
+  
+
+        
+        <!--显示阅读次数-->
+        
+        
+        
+        <a href="/2020/07/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93-002/" class="archive-article-date">
+  	<time datetime="2020-07-27T09:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
+</a>
+        <!--显示阅读次数完毕-->
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hadoop部分"><a href="#Hadoop部分" class="headerlink" title="Hadoop部分"></a>Hadoop部分</h1><h2 id="Hadoop相比于其他数据存储和分析的分布式系统"><a href="#Hadoop相比于其他数据存储和分析的分布式系统" class="headerlink" title="Hadoop相比于其他数据存储和分析的分布式系统"></a>Hadoop相比于其他数据存储和分析的分布式系统</h2><h3 id="1、关系型数据库管理系统"><a href="#1、关系型数据库管理系统" class="headerlink" title="1、关系型数据库管理系统"></a>1、关系型数据库管理系统</h3><p>（1）磁盘寻址时间很难提升（尤其是相较于传输速度，其取决于磁盘的带宽），所以如果数据访问模式中有大量的磁盘寻址，将会大大增加读取时间</p>
+<p>（2）当数据库系统中有大批量的数据需要更新，关系型数据库基于B树这种数据结构（受限于寻址的速率），那么效率明显落后于MapReduce，因为需要“排序/合并”（sort/merge）来重建数据库。反之，如果只更新一小部分记录，关系型数据库更有优势。</p>
+<p>（3）MapReduce适合一次写入，多次读取，而关系型数据库适合持续更新的数据集</p>
+<p>（4）对于Web服务器日志这种非规范化（所需的冗余项添加到表中）数据记录，关系型数据库更适合处理规范的，但是Hadoop非常适用于分析各类日志文件</p>
+<h3 id="2、高性能计算和网格计算"><a href="#2、高性能计算和网格计算" class="headerlink" title="2、高性能计算和网格计算"></a>2、高性能计算和网格计算</h3><p>（1）它适用于计算密集型的作业，如果节点需要访问的数据量很庞大，就会遇到网络带宽的瓶颈，而Hadoop尽量在节点上存储数据，就能实现本地快速访问，也就是数据本地化。</p>
+<p>（2）MapReduce采用了无共享的框架，当集群中有失败的任务，会重新到新的机器上执行，每个任务彼此独立，相比于MPI协调性更容易。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据/面试//" class="article-tag-list-link color3">面试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/07/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93-002/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-大数据知识总结-001" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -253,7 +352,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/26/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93-001/">大数据知识总结</a>
+      <a class="article-title" href="/2020/07/26/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93-001/">大数据知识总结-001</a>
     </h1>
   
 
@@ -1042,130 +1141,6 @@
 
 
   
-    <article id="post-搭建Hadoop-HA-四节点详细步骤" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">搭建Hadoop HA 四节点详细步骤</a>
-    </h1>
-  
-
-        
-        <!--显示阅读次数-->
-        
-        
-        
-        <a href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" class="archive-article-date">
-  	<time datetime="2020-07-18T09:38:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-18</time>
-</a>
-        <!--显示阅读次数完毕-->
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="4节点hadoop-2-8-3-HA集群搭建"><a href="#4节点hadoop-2-8-3-HA集群搭建" class="headerlink" title="4节点hadoop-2.8.3 HA集群搭建"></a>4节点hadoop-2.8.3 HA集群搭建</h1><h1 id="一、集群规划"><a href="#一、集群规划" class="headerlink" title="一、集群规划"></a>一、集群规划</h1><blockquote>
-<p> 共4个节点，主机名分别是node01、node02、node03、node04</p>
-<p> 初始启动集群，node01上运行active namenode即主namenode；node02上运行standby namenode即从namenode</p>
-</blockquote>
-<p>每个节点运行的进程如下表</p>
-<table>
-<thead>
-<tr>
-<th>机器名</th>
-<th>运行进程</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>node01</td>
-<td>NameNode/zkfc/Zookeepe/ResourceManager/NodeManager</td>
-</tr>
-<tr>
-<td>node02</td>
-<td>NameNode/zkfc/Zookeeper/Journalnode/DataNode/ResourceManager</td>
-</tr>
-<tr>
-<td>node03</td>
-<td>Zookeeper/Journalnode/DataNode/NodeManager</td>
-</tr>
-<tr>
-<td>node04</td>
-<td>DataNode/Journalnode/ResourceManager</td>
-</tr>
-</tbody></table>
-        
-          <a class="article-more-a" href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hadoop HA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/大数据/Hadoop//" class="article-tag-list-link color2">Hadoop</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/18/%E6%90%AD%E5%BB%BAHadoop-HA-%E5%9B%9B%E8%8A%82%E7%82%B9%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1287,6 +1262,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HDFS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Maven</a>
               </li>
              
@@ -1295,15 +1278,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HDFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ZooKeeper</a>
+                <a href="javascript:void(0)" class="js-tag color5">数据分析</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1311,11 +1286,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Hadoop HA</a>
+                <a href="javascript:void(0)" class="js-tag color5">ZooKeeper</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">数据分析</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hadoop HA</a>
               </li>
             
             <div class="clearfix"></div>
