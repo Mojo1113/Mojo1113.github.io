@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Maven | Zimo&#39;s Blog</title>
+  <title>Spark案例：统计各省份网站访问量 | Zimo&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zimo&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/Maven/index.html">
+  <meta name="description" content="数据ip.txt,ipaccess.log  ip.txt 数据记录格式：   1.0.32.0|1.0.63.255|16785408|16793599|亚洲|中国|广东|广州||电信|440100|China|CN|113.280637|23.125178  startip|endip|startiplong|endiplong|state|countries|provinces|city|o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark案例：统计各省份网站访问量">
+<meta property="og:url" content="http://yoursite.com/2020/07/30/Spark%E6%A1%88%E4%BE%8B%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%90%84%E7%9C%81%E4%BB%BD%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%87%8F/index.html">
 <meta property="og:site_name" content="Zimo&#39;s Blog">
+<meta property="og:description" content="数据ip.txt,ipaccess.log  ip.txt 数据记录格式：   1.0.32.0|1.0.63.255|16785408|16793599|亚洲|中国|广东|广州||电信|440100|China|CN|113.280637|23.125178  startip|endip|startiplong|endiplong|state|countries|provinces|city|o">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/07/30/ZgUuWP4viyE7TSJ.png">
+<meta property="article:published_time" content="2020-07-30T10:02:09.000Z">
+<meta property="article:modified_time" content="2020-07-30T10:03:39.764Z">
 <meta property="article:author" content="潘子墨">
+<meta property="article:tag" content="Spark案例">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/30/ZgUuWP4viyE7TSJ.png">
   
     <link rel="alternative" href="/atom.xml" title="Zimo&#39;s Blog" type="application/atom+xml">
   
@@ -170,51 +177,118 @@
           </div>
           <div id="js-content" class="content-ll">
             
-  
-  
+<article id="post-Spark案例：统计各省份网站访问量" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/24/IDEA%E4%B8%8A%E5%88%9B%E5%BB%BAMaven%E9%A1%B9%E7%9B%AE/" class="archive-article-date">
-  	<time datetime="2020-07-24T07:53:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/24/IDEA%E4%B8%8A%E5%88%9B%E5%BB%BAMaven%E9%A1%B9%E7%9B%AE/">IDEA上创建Maven项目</a>
+    <h1 class="article-title" itemprop="name">
+      Spark案例：统计各省份网站访问量
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <!--显示阅读次数-->
+        
+          <br/>
+          <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+            <span class="icon-sort"></span>
+            <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+             <span id="busuanzi_value_page_pv"></span> &nbsp;&nbsp;
+            </span>
+         </a>
+        
+        
+        
+        <a href="/2020/07/30/Spark%E6%A1%88%E4%BE%8B%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%90%84%E7%9C%81%E4%BB%BD%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%87%8F/" class="archive-article-date">
+  	<time datetime="2020-07-30T10:02:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-30</time>
+</a>
+        <!--显示阅读次数完毕-->
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p><strong>ip.txt,ipaccess.log</strong> </p>
+<p><strong>ip.txt</strong> <strong>数据记录格式：</strong> </p>
+<blockquote>
+<p>1.0.32.0|1.0.63.255|16785408|16793599|亚洲|中国|广东|广州||电信|440100|China|CN|113.280637|23.125178 </p>
+<p>startip|endip|startiplong|endiplong|state|countries|provinces|city|operator|zipcode| ….. </p>
+</blockquote>
+<p><strong>ipaccess.log</strong> <strong>数据记录格式：</strong> </p>
+<blockquote>
+<p>20190121000149320969000|123.197.40.148|<a href="http://www.pps.tv|/|Powerplayer/1.0|" target="_blank" rel="noopener">www.pps.tv|/|Powerplayer/1.0|</a> </p>
+<p>timestamp|ip|url|…. </p>
+</blockquote>
+<h2 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h2><blockquote>
+<p>统计各省份的访问量</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> spark.ipaccess</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.<span class="type">DriverManager</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.mchange.v2.c3p0.<span class="type">ComboPooledDataSource</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.rdd.<span class="type">RDD</span></span><br><span class="line"><span class="keyword">import</span> spark.sparkutils.<span class="type">SparkUtil</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 统计各省份的访问量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">IpAccessTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(args.length!=<span class="number">4</span>)&#123;</span><br><span class="line">      println(<span class="string">"Usage:&lt;master&gt;,&lt;LogPath&gt;,&lt;RulePath&gt;,&lt;OutputPath&gt;"</span>)</span><br><span class="line">      <span class="type">System</span>.exit(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> <span class="type">Array</span>(master,logPath,rulePath,outputPath) = args</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="type">SparkUtil</span>.getSpark(master) <span class="comment">//"spark://node01:7077"</span></span><br><span class="line">    <span class="comment">//读取文件</span></span><br><span class="line">    <span class="keyword">val</span> logRdd: <span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(logPath)</span><br><span class="line">    <span class="comment">//读取ip.txt的数据</span></span><br><span class="line">    <span class="comment">//1.15.168.0|1.15.207.255|17803264|17813503|亚洲|中国|北京|北京||方正宽带|110100|China|CN|116.405285|39.904989</span></span><br><span class="line">    <span class="comment">//1.15.208.0|1.15.223.255|17813504|17817599|亚洲|中国|辽宁|大连||方正宽带|210200|China|CN|121.618622|38.91459</span></span><br><span class="line">    <span class="keyword">val</span> ruleRdd: <span class="type">RDD</span>[<span class="type">String</span>] = sc.textFile(rulePath)</span><br><span class="line">    <span class="comment">//按|拆分数据</span></span><br><span class="line">    <span class="keyword">val</span> ruleArray: <span class="type">Array</span>[(<span class="type">Long</span>, <span class="type">Long</span>, <span class="type">String</span>)] = ruleRdd.map(t =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> strings = t.split(<span class="string">"\\|"</span>)</span><br><span class="line">      (strings(<span class="number">2</span>).toLong, strings(<span class="number">3</span>).toLong, strings(<span class="number">6</span>))</span><br><span class="line">    &#125;).collect()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">binarySearch</span></span>(ipLong:<span class="type">Long</span>):<span class="type">String</span>=&#123;</span><br><span class="line">      <span class="keyword">var</span> start = <span class="number">0</span></span><br><span class="line">      <span class="keyword">var</span> end = ruleArray.size<span class="number">-1</span></span><br><span class="line">      <span class="keyword">var</span> middle = <span class="number">-1</span></span><br><span class="line">      <span class="keyword">var</span> ipProvince = <span class="string">"未知"</span></span><br><span class="line">      <span class="keyword">var</span> flag = <span class="literal">true</span></span><br><span class="line">      <span class="keyword">while</span>(flag &amp;&amp; start&lt;=end)&#123;</span><br><span class="line">        middle = (start+end)/<span class="number">2</span></span><br><span class="line">        <span class="keyword">val</span> (startIp,endIp,province) = ruleArray(middle)</span><br><span class="line">        <span class="keyword">if</span>(ipLong &gt;= startIp &amp;&amp; ipLong &lt;= endIp) &#123;</span><br><span class="line">          flag = <span class="literal">false</span></span><br><span class="line">          ipProvince = province</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (ipLong &gt; endIp) start = middle + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span> end = middle - <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      ipProvince</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//对ipaccess.log中的数据拆分处理</span></span><br><span class="line">    <span class="comment">//20190121000132095572000|195.213.100.123|show.51.com|/...</span></span><br><span class="line">    <span class="comment">//方法一：filter筛选条件-缺点：效率低</span></span><br><span class="line"><span class="comment">//    logRdd.flatMap(t=&gt;&#123;</span></span><br><span class="line"><span class="comment">//      val strings = t.split("\\|")</span></span><br><span class="line"><span class="comment">//      val ipLong: Long = ip2Long(strings(1))</span></span><br><span class="line"><span class="comment">//      val array: Array[(Long, Long, String)] = ruleArray.filter(m =&gt; ipLong &gt;= m._1 &amp;&amp; ipLong &lt;= m._2)</span></span><br><span class="line"><span class="comment">//      array.map(_._3)</span></span><br><span class="line"><span class="comment">//    &#125;).map((_,1)).reduceByKey(_+_).collect().foreach(println)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//方法二：匹配ip.txt中的数据，通过二分查找</span></span><br><span class="line">    <span class="keyword">val</span> resRdd: <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = logRdd.map(t =&gt; &#123;</span><br><span class="line">      <span class="keyword">val</span> strings = t.split(<span class="string">"\\|"</span>)</span><br><span class="line">      <span class="keyword">val</span> ipLong: <span class="type">Long</span> = ip2Long(strings(<span class="number">1</span>))</span><br><span class="line">      <span class="keyword">val</span> str = binarySearch(ipLong)</span><br><span class="line">      (str, <span class="number">1</span>)</span><br><span class="line">    &#125;).reduceByKey(_ + _)<span class="comment">//.saveAsTextFile(outputPath)</span></span><br><span class="line"></span><br><span class="line">    resRdd.foreachPartition(it=&gt;&#123;</span><br><span class="line">      <span class="keyword">val</span> source  = <span class="keyword">new</span> <span class="type">ComboPooledDataSource</span>()</span><br><span class="line">      <span class="keyword">val</span> connection = source.getConnection()</span><br><span class="line"><span class="comment">//      Class.forName("com.mysql.jdbc.Driver")</span></span><br><span class="line"><span class="comment">//      val connection = DriverManager.getConnection("jdbc:mysql://192.168.200.10:3306/bd04?useSSL=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8", "root", "root")</span></span><br><span class="line">      <span class="keyword">val</span> sql_create = <span class="string">"create table if not exists t_province (province varchar(50),p_count int)"</span></span><br><span class="line">      <span class="keyword">val</span> statement1 = connection.prepareStatement(sql_create)</span><br><span class="line">      statement1.execute()</span><br><span class="line">      <span class="keyword">val</span> sql_insert = <span class="string">"insert into t_province values(?,?)"</span></span><br><span class="line">      <span class="keyword">val</span> statement2 = connection.prepareStatement(sql_insert)</span><br><span class="line">      <span class="comment">//默认开启事务</span></span><br><span class="line">      connection.setAutoCommit(<span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">      it.foreach(t=&gt;&#123;</span><br><span class="line">        statement2.setString(<span class="number">1</span>,t._1)</span><br><span class="line">        statement2.setInt(<span class="number">2</span>,t._2)</span><br><span class="line">        <span class="comment">//加入批次</span></span><br><span class="line">        statement2.addBatch()</span><br><span class="line"></span><br><span class="line">      &#125;)</span><br><span class="line">      statement2.executeBatch()</span><br><span class="line">      connection.commit()</span><br><span class="line">      <span class="comment">//关流</span></span><br><span class="line">      statement1.close()</span><br><span class="line">      statement2.close()</span><br><span class="line">      connection.close()</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    sc.stop()</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ip由String类型转为Long类型</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">ip2Long</span></span>(ip: <span class="type">String</span>): <span class="type">Long</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> fragments = ip.split(<span class="string">"[.]"</span>)</span><br><span class="line">    <span class="keyword">var</span> ipNum = <span class="number">0</span>L</span><br><span class="line">    <span class="keyword">for</span> (i &lt;- <span class="number">0</span> until fragments.length) &#123;</span><br><span class="line">      ipNum = fragments(i).toLong | ipNum &lt;&lt; <span class="number">8</span>L</span><br><span class="line">    &#125;</span><br><span class="line">    ipNum</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="打jar包放到集群中"><a href="#打jar包放到集群中" class="headerlink" title="打jar包放到集群中"></a>打jar包放到集群中</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SparkTest-1.0-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+
+<h2 id="集群上操作"><a href="#集群上操作" class="headerlink" title="集群上操作"></a>集群上操作</h2><p>用c3p0，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark-submit --jars mysql-connector-java-8.0.16.jar,c3p0-0.9.1.2.jar --class spark.ipaccess.IpAccessTest SparkTest-1.0-SNAPSHOT.jar spark:&#x2F;&#x2F;node01:7077 hdfs:&#x2F;&#x2F;node01:9000&#x2F;app&#x2F;data&#x2F;ipcount&#x2F;ipaccess.log hdfs:&#x2F;&#x2F;node01:9000&#x2F;app&#x2F;data&#x2F;ipcount&#x2F;ip.txt 1</span><br></pre></td></tr></table></figure>
+
+<p>用jdbc，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark-submit --jars mysql-connector-java-8.0.16.jar --class spark.ipaccess.IpAccessTest SparkTest-1.0-SNAPSHOT.jar spark:&#x2F;&#x2F;node01:7077 hdfs:&#x2F;&#x2F;node01:9000&#x2F;app&#x2F;data&#x2F;ipcount&#x2F;ipaccess.log hdfs:&#x2F;&#x2F;node01:9000&#x2F;app&#x2F;data&#x2F;ipcount&#x2F;ip.txt 1</span><br></pre></td></tr></table></figure>
+
+<p>数据放到了mysql中，得到的结果为：</p>
+<p><img src="https://i.loli.net/2020/07/30/ZgUuWP4viyE7TSJ.png" alt="Snipaste_2020-07-30_17-48-51.png"></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat-pay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Maven</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IDEA</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Spark案例</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -222,22 +296,126 @@
         		<li class="article-tag-list-item">
         			<a href="/categories/大数据//" class="article-tag-list-link color4">大数据</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/大数据/Spark//" class="article-tag-list-link color1">Spark</a>
+        		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mojo1113.github.io/2020/07/30/Spark%E6%A1%88%E4%BE%8B%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%90%84%E7%9C%81%E4%BB%BD%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E9%87%8F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/07/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93-002/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">大数据知识总结-002</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据"><span class="toc-number">1.</span> <span class="toc-text">数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#需求："><span class="toc-number">2.</span> <span class="toc-text">需求：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码："><span class="toc-number">3.</span> <span class="toc-text">代码：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打jar包放到集群中"><span class="toc-number">4.</span> <span class="toc-text">打jar包放到集群中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集群上操作"><span class="toc-number">5.</span> <span class="toc-text">集群上操作</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -263,9 +441,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
