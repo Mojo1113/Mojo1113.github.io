@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/08/02/DOyhK2XmsFcLQqV.png">
 <meta property="article:published_time" content="2020-08-02T12:43:59.000Z">
-<meta property="article:modified_time" content="2020-08-02T12:59:27.678Z">
+<meta property="article:modified_time" content="2020-08-02T13:12:10.357Z">
 <meta property="article:author" content="潘子墨">
 <meta property="article:tag" content="spark">
 <meta name="twitter:card" content="summary">
@@ -215,15 +215,20 @@
 <ul>
 <li><p>SparkContext：是用户逻辑于Spark集群的主要交互接口，是程序运行调度的核心。</p>
 <ul>
-<li><p>DAGScheduler：负责高层调度，根据计算任务的依赖关系建立DAG，将DAG划分为不同的stage，并且监听Task的状态，由于DAGScheduler保存了TaskScheduler的引用，所以需要在TaskScheduler创建之后创建。</p>
-<ul>
-<li>Stage：1. 在Shuffle的过程中产生；2 .如果两个RDD是宽依赖的关系，需要Shuffle（窄依赖可以并行执行）；3. Stage的划分从最后一个RDD开始，即触发Action的RDD；4. 每个Stage由一组完全独立的计算任务（Task）组成；5. Stage分为ShuffleMapStage和ResultStage，只有最后一个Stage是ResultStage，对应的Task为ResulrTask；6. 每个Stage封装一个TaskSet，提交到TaskScheduler</li>
+<li>DAGScheduler：负责高层调度，根据计算任务的依赖关系建立DAG，将DAG划分为不同的stage，并且监听Task的状态，由于DAGScheduler保存了TaskScheduler的引用，所以需要在TaskScheduler创建之后创建。</li>
 </ul>
+</li>
+<li><p>Stage：1. 在Shuffle的过程中产生；2 .如果两个RDD是宽依赖的关系，需要Shuffle（窄依赖可以并行执行）；3. Stage的划分从最后一个RDD开始，即触发Action的RDD；4. 每个Stage由一组完全独立的计算任务（Task）组成；5. Stage分为ShuffleMapStage和ResultStage，只有最后一个Stage是ResultStage，对应的Task为ResulrTask；6. 每个Stage封装一个TaskSet，提交到TaskScheduler</p>
+</li>
+<li><p>TaskScheduler：负责Stage内部Application的不同Job的调度，Task的容错、启动备份等，根据不同的资源管理方式，生成不同的TaskScheduler和SchedulerBackend</p>
+<ul>
+<li><p>TaskSet：每组TaskSet中的每个Task的运行逻辑完全相同，每个Task对应RDD中的一个Partition分片</p>
 </li>
 <li><p>TaskSetManager：会根据数据的就近原则为Task分配计算资源，监控Task的执行状态并采取必要的措施，如失败重试、满任务的推测型执行</p>
 </li>
-<li><p>SchedulerBackend：一个TaskScheduler对应一个SchedulerBackend，它负责与ClusterManager交互，取得Application分配到的资源，并将这些资源传给TaskScheduler，并向Executor分配Task、启动Task</p>
-</li>
+</ul>
+<ul>
+<li>SchedulerBackend：一个TaskScheduler对应一个SchedulerBackend，它负责与ClusterManager交互，取得Application分配到的资源，并将这些资源传给TaskScheduler，并向Executor分配Task、启动Task</li>
 </ul>
 </li>
 </ul>
@@ -506,6 +511,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ETL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">MapReduce</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Spark</a>
               </li>
              
@@ -514,15 +527,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">HDFS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ETL</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">MapReduce</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -538,23 +551,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTML</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Spark案例</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ZooKeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
